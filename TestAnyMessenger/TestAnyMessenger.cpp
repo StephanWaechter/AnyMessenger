@@ -15,22 +15,12 @@ int main()
     {
         auto reciver2 = messenger.create_reciver<Reciver2>();
 
-        messenger.send(
-            std::make_shared<Message1>(1)
-        );
-
-        messenger.send(
-            std::make_shared<Message2>("Test 1")
-        );
+        messenger.send<Message1>(1);
+        messenger.send<Message2>("Test 1");
     }
 
-    messenger.send(
-        std::make_shared<Message1>(2)
-    );
-
-    messenger.send(
-        std::make_shared<Message2>("Test 2")
-    );
+    messenger.send<Message1>(2);
+    messenger.send<Message2>("Test 2");
 
 	return 0;
 }

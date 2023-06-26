@@ -15,6 +15,21 @@ namespace AnyMessenger
             return std::make_shared<ReciverType>(*this);
         }
 
+        template<class MessageType, class... _ArgTypes>
+        void send(_ArgTypes&&... _Args)
+        {
+            auto message = std::make_shared<MessageType>(
+                std::forward<_ArgTypes>(_Args)...
+            );
+            auto id = typeid(MessageType).hash_code();
+            auto& recipients = m_recipients[id];
+            for (auto& any : recipients)
+            {
+                auto recipient = std::any_cast<Reciver<MessageType>*>(any);
+                recipient->Recive(message);
+            }
+        }
+
         template<class MessageType>
         void send(const std::shared_ptr<MessageType> message)
         {
